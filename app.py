@@ -1,4 +1,6 @@
 import os, sys
+import queue
+
 import torch, datetime
 import ChatTTS
 from dotenv import load_dotenv
@@ -58,9 +60,26 @@ LOGS_DIR = LOGS_DIR_PATH.as_posix()
 WEB_ADDRESS = os.getenv("WEB_ADDRESS", "127.0.0.1:9966")
 
 CHATTTS_DIR = snapshot_download("pzc163/chatTTS", cache_dir=MODEL_DIR)
-chat = ChatTTS.Chat()
-chat.load_models(source="local", local_path=CHATTTS_DIR)
 
+
+def init_chat():
+    try:
+        chat = ChatTTS.Chat()
+        chat.load_models(source="local", local_path=CHATTTS_DIR)
+        return chat
+    except Exception:
+        return None
+
+
+models = []
+for i in range(8):
+    chat = init_chat()
+    if chat:
+        models.append(chat)
+
+device_queue = queue.Queue()
+for i in range(len(models)):
+    device_queue.put(i)
 
 # 配置日志
 # 禁用 Werkzeug 默认的日志处理器
@@ -138,7 +157,8 @@ def tts():
     datename = datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
     filename = datename + "-" + md5_hash.hexdigest() + ".wav"
 
-    wavs = chat.infer(
+    mid = device_queue.get()
+    wavs = models[mid].infer(
         [text],
         use_decoder=True,
         params_infer_code={"spk_emb": rand_spk},
