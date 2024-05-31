@@ -11,7 +11,8 @@ def select_device(min_memory=2048):
             free_memory = props.total_memory - torch.cuda.memory_reserved(i)
             available_gpus.append((i, free_memory))
             logger.log(
-                logging.WARNING, f"GPU {i} has {round(free_memory, 2)} MB memory left."
+                logging.WARNING,
+                f"GPU {i}/{torch.cuda.device_count()} has {round(free_memory, 2)} MB memory left.",
             )
         selected_gpu, max_free_memory = max(available_gpus, key=lambda x: x[1])
         device = torch.device(f"cuda:{selected_gpu}")
