@@ -72,7 +72,7 @@ def init_chat():
 
 
 models = []
-for i in range(16):
+for i in range(2):
     chat = init_chat()
     if chat:
         models.append(chat)
@@ -157,13 +157,17 @@ def tts():
     datename = datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
     filename = datename + "-" + md5_hash.hexdigest() + ".wav"
 
-    mid = device_queue.get()
+    try:
+        mid = device_queue.get(block=False)
+    except Exception:
+        return jsonify({"code": 1, "msg": "no enough resource, wait a moment"})
     wavs = models[mid].infer(
         [text],
         use_decoder=True,
         params_infer_code={"spk_emb": rand_spk},
         params_refine_text={"prompt": prompt},
     )
+    device_queue.put(mid)
     # 初始化一个空的numpy数组用于之后的合并
     combined_wavdata = np.array(
         [], dtype=wavs[0][0].dtype
