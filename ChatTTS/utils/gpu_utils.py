@@ -7,6 +7,10 @@ def select_device(min_memory=2048):
     if torch.cuda.is_available():
         available_gpus = []
         for i in range(torch.cuda.device_count()):
+            torch.cuda.set_device(i)
+            torch.zeros(1).to(
+                torch.device(f"cuda:{i}")
+            )  # 分配一个小张量到GPU以强制初始化
             props = torch.cuda.get_device_properties(i)
             free_memory = (
                 props.total_memory
