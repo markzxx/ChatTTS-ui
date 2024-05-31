@@ -180,7 +180,7 @@ class Chat:
                     logging.WARNING, f"Invalid characters found! : {invalid_characters}"
                 )
                 for c in invalid_characters:
-                    text = text.replace(c, "")
+                    i = i.replace(c, "")
                 self.logger.log(logging.WARNING, f"After replacement : {text}")
 
         if not skip_refine_text:
