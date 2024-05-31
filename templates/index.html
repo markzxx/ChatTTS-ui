@@ -90,9 +90,7 @@ $(document).ready(function() {
                 timeout: 3600000, 
                 success: function(response) {
                     if (response.code === 0) {
-						let pos=response.filename.lastIndexOf('/')+1
-						let filename=response.filename.substr(pos)
-                        $('#audio-container').prepend(`<div class="col-auto mb-2 pb-2 border-bottom"><div class="fs-6 text-secondary">${filename}</div><audio controls src="http://${location.host}${response.url}"></audio></div>`);
+                        $('#audio-container').prepend(`<div class="col-auto mb-2 pb-2 border-bottom"><div class="fs-6 text-secondary">${response.filename}</div><audio controls src="http://${location.host}${response.url}"></audio></div>`);
                     } else {
                         layer.alert(response.msg,{title:false});
                     }

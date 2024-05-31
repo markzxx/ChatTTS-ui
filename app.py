@@ -135,7 +135,7 @@ def tts():
 
     md5_hash = hashlib.md5()
     md5_hash.update(f"{text}-{voice}-{language}-{speed}-{prompt}".encode("utf-8"))
-    datename = datetime.datetime.now().strftime("%Y%m%d-%H_%M_%S")
+    datename = datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
     filename = datename + "-" + md5_hash.hexdigest() + ".wav"
 
     wavs = chat.infer(
@@ -157,7 +157,7 @@ def tts():
         {
             "code": 0,
             "msg": "ok",
-            "filename": WAVS_DIR + "/" + filename,
+            "filename": datename,
             "url": f"/static/wavs/{filename}",
         }
     )
