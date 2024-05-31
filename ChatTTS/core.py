@@ -180,7 +180,8 @@ class Chat:
                     logging.WARNING, f"Invalid characters found! : {invalid_characters}"
                 )
                 for c in invalid_characters:
-                    i = i.replace(c, "")
+                    text = text.replace(c, "")
+                self.logger.log(logging.WARNING, f"After replacement : {text}")
 
         if not skip_refine_text:
             text_tokens = refine_text(self.pretrain_models, text, **params_refine_text)[
