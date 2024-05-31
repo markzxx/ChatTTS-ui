@@ -72,7 +72,7 @@ def init_chat():
 
 
 models = []
-for i in range(2, 4):
+for i in range(4):
     chat = init_chat()
     if chat:
         models.append(chat)
@@ -170,7 +170,7 @@ def tts():
             params_refine_text={"prompt": prompt},
         )
     except Exception as e:
-        jsonify(
+        return jsonify(
             {
                 "code": 1,
                 "msg": "Internal error",

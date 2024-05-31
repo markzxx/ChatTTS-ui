@@ -173,15 +173,15 @@ class Chat:
                     t, verbose=False, punct_post_process=True
                 )
 
-        for i in text:
-            invalid_characters = count_invalid_characters(i)
+        for i, t in enumerate(text):
+            invalid_characters = count_invalid_characters(t)
             if len(invalid_characters):
                 self.logger.log(
                     logging.WARNING, f"Invalid characters found! : {invalid_characters}"
                 )
                 for c in invalid_characters:
-                    i = i.replace(c, "")
-                self.logger.log(logging.WARNING, f"After replacement : {i}")
+                    text[i] = t.replace(c, "")
+                self.logger.log(logging.WARNING, f"After replacement : {text}")
 
         if not skip_refine_text:
             text_tokens = refine_text(self.pretrain_models, text, **params_refine_text)[
