@@ -158,7 +158,7 @@ def tts():
             "code": 0,
             "msg": "ok",
             "filename": WAVS_DIR + "/" + filename,
-            "url": f"http://{WEB_ADDRESS}/static/wavs/{filename}",
+            "url": f"/static/wavs/{filename}",
         }
     )
 
