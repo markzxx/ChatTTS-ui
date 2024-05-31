@@ -8,7 +8,7 @@ def select_device(min_memory=2048):
         available_gpus = []
         for i in range(torch.cuda.device_count()):
             props = torch.cuda.get_device_properties(i)
-            free_memory = props.total_memory - torch.cuda.memory_reserved(i)
+            free_memory = props.total_memory - torch.cuda.memory_reserved(i) - torch.cuda.memory_allocated(i)
             available_gpus.append((i, free_memory))
             logger.log(
                 logging.WARNING,
