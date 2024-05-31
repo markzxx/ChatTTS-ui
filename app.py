@@ -163,6 +163,7 @@ def tts():
         return jsonify({"code": 1, "msg": "no enough resource, wait a moment"})
 
     try:
+        root_log.log(logging.WARNING, f"Get device {mid}")
         wavs = models[mid].infer(
             [text],
             use_decoder=True,
