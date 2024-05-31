@@ -72,7 +72,7 @@ def init_chat():
 
 
 models = []
-for i in range(2):
+for i in range(2, 4):
     chat = init_chat()
     if chat:
         models.append(chat)
