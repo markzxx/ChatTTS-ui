@@ -139,7 +139,7 @@ def tts():
     filename = datename + "-" + md5_hash.hexdigest() + ".wav"
 
     wavs = chat.infer(
-        [t for t in text.split("\n") if t.strip()],
+        [text],
         use_decoder=True,
         params_infer_code={"spk_emb": rand_spk},
         params_refine_text={"prompt": prompt},
