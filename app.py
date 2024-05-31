@@ -132,6 +132,7 @@ def index():
 # prompt：
 @app.route("/tts", methods=["GET", "POST"])
 def tts():
+    start = datetime.datetime.now()
     # 原始字符串
     text = request.args.get("text", "").strip() or request.form.get("text", "").strip()
     prompt = request.form.get("prompt", "")
@@ -194,6 +195,7 @@ def tts():
             "msg": "ok",
             "filename": datename,
             "url": f"/static/wavs/{filename}",
+            "cost": int((datetime.datetime.now() - start).total_seconds()),
         }
     )
 
