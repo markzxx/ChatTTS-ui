@@ -65,9 +65,7 @@ CHATTTS_DIR = snapshot_download("pzc163/chatTTS", cache_dir=MODEL_DIR)
 def init_chat():
     try:
         chat = ChatTTS.Chat()
-        chat.load_models(
-            source="local", local_path=CHATTTS_DIR, device=torch.device("cpu")
-        )
+        chat.load_models(source="local", local_path=CHATTTS_DIR)
         return chat
     except Exception:
         return None
