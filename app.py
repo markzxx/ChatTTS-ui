@@ -161,13 +161,23 @@ def tts():
         mid = device_queue.get(block=False)
     except Exception:
         return jsonify({"code": 1, "msg": "no enough resource, wait a moment"})
-    wavs = models[mid].infer(
-        [text],
-        use_decoder=True,
-        params_infer_code={"spk_emb": rand_spk},
-        params_refine_text={"prompt": prompt},
-    )
-    device_queue.put(mid)
+
+    try:
+        wavs = models[mid].infer(
+            [text],
+            use_decoder=True,
+            params_infer_code={"spk_emb": rand_spk},
+            params_refine_text={"prompt": prompt},
+        )
+    except Exception as e:
+        jsonify(
+            {
+                "code": 1,
+                "msg": "Internal error",
+            }
+        )
+    finally:
+        device_queue.put(mid)
     # 初始化一个空的numpy数组用于之后的合并
     combined_wavdata = np.array(
         [], dtype=wavs[0][0].dtype
