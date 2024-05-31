@@ -74,7 +74,7 @@ def init_chat():
 
 
 models = []
-for i in range(torch.cuda.device_count()):
+for i in range(1):
     chat = init_chat()
     if chat:
         models.append(chat)
